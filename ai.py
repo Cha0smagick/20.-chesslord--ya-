@@ -65,7 +65,13 @@ class ChessEngine:
             for c in range(8):
                 ficha = self.board.grid[f][c]
                 if ficha != ' ':
+                    tipo = ficha.upper()
                     val = VALOR_PIEZAS[ficha.lower()]
-                    # Añadir valor de posición (PST)
+                    
+                    # Aplicar Piece-Square Tables para posicionamiento estratégico
+                    if tipo in PST:
+                        fila_pst = f if ficha.isupper() else 7 - f
+                        val += PST[tipo][fila_pst][c]
+
                     total += val if ficha.isupper() else -val
         return total
