@@ -5,7 +5,9 @@ from constants import BLANCO, NEGRO
 class ChessGame:
     def __init__(self):
         self.board = Board()
-        self.engine = ChessEngine(self.board)
+        print("Selecciona dificultad: Fácil, Intermedio, Difícil")
+        difficulty = input("Dificultad: ")
+        self.engine = ChessEngine(self.board, difficulty)
         self.turn = NEGRO
 
     def display(self):
@@ -43,16 +45,25 @@ class ChessGame:
             if entrada in ['salir', 'exit', 'quit']:
                 return None
             
+            if len(entrada) != 4:
+                print("❌ Formato incorrecto. Debes ingresar 4 caracteres (ej: e7e5).")
+                continue
+
             try:
-                if len(entrada) == 4:
-                    origen = self.notacion_a_casilla(entrada[:2])
-                    destino = self.notacion_a_casilla(entrada[2:])
-                    move = (origen, destino)
-                    if self.board.is_valid_move(move, self.turn):
-                        return move
-                print("❌ Movimiento ilegal o formato incorrecto.")
-            except Exception:
-                print("❌ Error de formato. Usa algo como 'e7e5'.")
+                # Validar notación
+                for char in [entrada[0], entrada[2]]:
+                    if char not in 'abcdefgh': raise ValueError("Columna inválida")
+                for char in [entrada[1], entrada[3]]:
+                    if char not in '12345678': raise ValueError("Fila inválida")
+
+                origen = self.notacion_a_casilla(entrada[:2])
+                destino = self.notacion_a_casilla(entrada[2:])
+                move = (origen, destino)
+                if self.board.is_valid_move(move, self.turn):
+                    return move
+                print("❌ Movimiento ilegal.")
+            except Exception as e:
+                print(f"❌ Error: {e}. Usa algo como 'e7e5'.")
 
     @staticmethod
     def notacion_a_casilla(notacion):

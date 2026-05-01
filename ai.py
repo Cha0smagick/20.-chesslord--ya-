@@ -2,9 +2,14 @@ import random
 from constants import VALOR_PIEZAS, PST, BLANCO, NEGRO
 
 class ChessEngine:
-    def __init__(self, board, depth=3):
+    def __init__(self, board, difficulty="Intermedio"):
         self.board = board
-        self.depth = depth
+        if difficulty == "Fácil":
+            self.depth = 2
+        elif difficulty == "Difícil":
+            self.depth = 6
+        else:
+            self.depth = 4
 
     def get_best_move(self):
         best_move = None

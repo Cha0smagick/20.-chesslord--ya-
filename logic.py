@@ -121,7 +121,8 @@ class Board:
             elif dx == 1 and f_d == f_o + dir and objetivo != ' ': # Captura
                 es_valido = True
         elif tipo == 'n':
-            # El caballo SIEMPRE debe cumplir la proporción 2:1 o 1:2
+            # El caballo se mueve en L (2 cuadros en una dirección cardinal y 1 cuadro en dirección perpendicular).
+            # Esta lógica permite los 8 posibles movimientos del caballo independientemente de su posición.
             es_valido = (dx == 2 and dy == 1) or (dx == 1 and dy == 2)
         elif tipo == 'b':
             es_valido = (dx == dy) and self._check_path((origen, destino), True, False)
